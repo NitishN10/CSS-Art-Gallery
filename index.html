@@ -1,0 +1,1298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS Art Gallery | Pure CSS Masterpieces</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Login Page Styles */
+        .login-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+
+        .login-box {
+            background: rgba(45, 43, 85, 0.95);
+            border-radius: 20px;
+            padding: 40px;
+            width: 90%;
+            max-width: 450px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(108, 99, 255, 0.3);
+        }
+
+        .login-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .login-header h1 {
+            color: #6C63FF;
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .login-header p {
+            color: #8A8DB3;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            color: #F7F7FF;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 14px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            color: white;
+            font-size: 1rem;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #6C63FF;
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #6C63FF, #36D1DC);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 10px;
+        }
+
+        .login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(108, 99, 255, 0.3);
+        }
+
+        .login-note {
+            text-align: center;
+            color: #8A8DB3;
+            font-size: 0.9rem;
+            margin-top: 20px;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+    </style>
+</head>
+<body>
+    <!-- Login Page -->
+    <div class="login-overlay" id="loginPage">
+        <div class="login-box">
+            <div class="login-header">
+                <h1><i class="fas fa-palette"></i> CSS Art Gallery</h1>
+                <p>Login to explore amazing CSS artworks</p>
+            </div>
+            
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="username">Full Name</label>
+                    <input type="text" id="username" name="username" placeholder="Enter your name" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" name="email" placeholder="Enter your email" required>
+                </div>
+                
+                <button type="submit" class="login-btn">Enter Gallery</button>
+                <p class="login-note">No password required. Just enter your details to continue.</p>
+            </form>
+        </div>
+    </div>
+
+    <!-- Gallery Page (Hidden Initially) -->
+    <div id="galleryPage" class="hidden">
+        <!-- Your original gallery content will be loaded here -->
+    </div>
+
+    <script>
+        // Login functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const loginForm = document.getElementById('loginForm');
+            const loginPage = document.getElementById('loginPage');
+            const galleryPage = document.getElementById('galleryPage');
+            
+            // Check if already logged in
+            if (localStorage.getItem('cssGalleryUser')) {
+                showGallery();
+            }
+            
+            loginForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const username = document.getElementById('username').value;
+                const email = document.getElementById('email').value;
+                
+                if (username && email) {
+                    // Save user info
+                    localStorage.setItem('cssGalleryUser', JSON.stringify({
+                        name: username,
+                        email: email,
+                        loginTime: new Date().toISOString()
+                    }));
+                    
+                    showGallery();
+                }
+            });
+            
+            function showGallery() {
+                loginPage.classList.add('hidden');
+                galleryPage.classList.remove('hidden');
+                
+                // Load the gallery content
+                loadGalleryContent();
+            }
+            
+            function loadGalleryContent() {
+                // This loads your original gallery HTML
+                galleryPage.innerHTML = `
+                    <!-- YOUR ORIGINAL GALLERY HTML STARTS HERE -->
+                    <header>
+                        <div class="container">
+                            <h1><i class="fas fa-palette"></i> CSS Art Gallery</h1>
+                            <p class="subtitle">A collection of stunning artworks created with pure CSS - no images, no JavaScript, just code!</p>
+                        </div>
+                    </header>
+
+                    <div class="container">
+                        <div class="filter-tabs">
+                            <button class="filter-btn active" data-filter="all">All Artworks</button>
+                            <button class="filter-btn" data-filter="simple">Simple</button>
+                            <button class="filter-btn" data-filter="intermediate">Intermediate</button>
+                            <button class="filter-btn" data-filter="advanced">Advanced</button>
+                            <button class="filter-btn" data-filter="animated">Animated</button>
+                        </div>
+
+                        <div class="gallery">
+                            <!-- Smiley Face -->
+                            <div class="artwork" data-category="simple">
+                                <h3 class="art-title"><i class="fas fa-smile"></i> Smiley Face</h3>
+                                <div class="art-container">
+                                    <div class="smiley-face">
+                                        <div class="eye left"></div>
+                                        <div class="eye right"></div>
+                                        <div class="mouth"></div>
+                                    </div>
+                                </div>
+                                <p class="art-description">A classic smiley face created with pure CSS using borders and positioned elements.</p>
+                                <div class="art-meta">
+                                    <span>Pure CSS</span>
+                                    <div class="art-difficulty">
+                                        <span class="difficulty-dot filled"></span>
+                                        <span class="difficulty-dot"></span>
+                                        <span class="difficulty-dot"></span>
+                                        <span>Simple</span>
+                                    </div>
+                                </div>
+                                <button class="view-code">View Code</button>
+                                <div class="code-display">
+                                    <div class="code-header">
+                                        <h4 class="code-title">Complete HTML + CSS for Smiley Face</h4>
+                                        <button class="copy-btn">Copy Code</button>
+                                    </div>
+                                    <pre class="code-content">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;style&gt;
+        body {
+            margin: 0;
+            padding: 20px;
+            background: #87CEEB;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        
+        .smiley-face {
+            width: 150px;
+            height: 150px;
+            background: #FFD93D;
+            border-radius: 50%;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(255, 217, 61, 0.3);
+        }
+
+        .eye {
+            position: absolute;
+            width: 25px;
+            height: 25px;
+            background: #2D2B55;
+            border-radius: 50%;
+            top: 45px;
+        }
+
+        .eye.left { left: 35px; }
+        .eye.right { right: 35px; }
+
+        .mouth {
+            position: absolute;
+            width: 70px;
+            height: 35px;
+            border-bottom: 8px solid #2D2B55;
+            border-radius: 0 0 35px 35px;
+            bottom: 35px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+    &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;div class="smiley-face"&gt;
+        &lt;div class="eye left"&gt;&lt;/div&gt;
+        &lt;div class="eye right"&gt;&lt;/div&gt;
+        &lt;div class="mouth"&gt;&lt;/div&gt;
+    &lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;</pre>
+                                </div>
+                            </div>
+
+                            <!-- CSS Heart -->
+                            <div class="artwork" data-category="intermediate animated">
+                                <h3 class="art-title"><i class="fas fa-heart"></i> Beating Heart</h3>
+                                <div class="art-container">
+                                    <div class="css-heart"></div>
+                                </div>
+                                <p class="art-description">A clear, beating heart created with CSS transforms and animations using pseudo-elements.</p>
+                                <div class="art-meta">
+                                    <span>Pure CSS + Animation</span>
+                                    <div class="art-difficulty">
+                                        <span class="difficulty-dot filled"></span>
+                                        <span class="difficulty-dot filled"></span>
+                                        <span class="difficulty-dot"></span>
+                                        <span>Intermediate</span>
+                                    </div>
+                                </div>
+                                <button class="view-code">View Code</button>
+                                <div class="code-display">
+                                    <div class="code-header">
+                                        <h4 class="code-title">Complete HTML + CSS for Beating Heart</h4>
+                                        <button class="copy-btn">Copy Code</button>
+                                    </div>
+                                    <pre class="code-content">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;style&gt;
+        body {
+            margin: 0;
+            padding: 20px;
+            background: #1a1a2e;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        
+        .css-heart {
+            width: 120px;
+            height: 120px;
+            position: relative;
+            animation: heartbeat 1.5s ease-in-out infinite;
+        }
+
+        .css-heart::before, .css-heart::after {
+            content: '';
+            width: 70px;
+            height: 110px;
+            background: #FF6584;
+            border-radius: 50px 50px 0 0;
+            position: absolute;
+            box-shadow: 0 0 20px rgba(255, 101, 132, 0.5);
+        }
+
+        .css-heart::before {
+            top: 0;
+            left: 60px;
+            transform: rotate(-45deg);
+            transform-origin: 0 100%;
+        }
+
+        .css-heart::after {
+            top: 0;
+            left: 0;
+            transform: rotate(45deg);
+            transform-origin: 100% 100%;
+        }
+
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+    &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;div class="css-heart"&gt;&lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;</pre>
+                                </div>
+                            </div>
+
+                            <!-- Moon -->
+                            <div class="artwork" data-category="intermediate animated">
+                                <h3 class="art-title"><i class="fas fa-moon"></i> Glowing Moon</h3>
+                                <div class="art-container">
+                                    <div class="moon"></div>
+                                </div>
+                                <p class="art-description">A realistic moon with craters and a subtle glowing animation using box-shadow.</p>
+                                <div class="art-meta">
+                                    <span>Pure CSS + Animation</span>
+                                    <div class="art-difficulty">
+                                        <span class="difficulty-dot filled"></span>
+                                        <span class="difficulty-dot filled"></span>
+                                        <span class="difficulty-dot"></span>
+                                        <span>Intermediate</span>
+                                    </div>
+                                </div>
+                                <button class="view-code">View Code</button>
+                                <div class="code-display">
+                                    <div class="code-header">
+                                        <h4 class="code-title">Complete HTML + CSS for Glowing Moon</h4>
+                                        <button class="copy-btn">Copy Code</button>
+                                    </div>
+                                    <pre class="code-content">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;style&gt;
+        body {
+            margin: 0;
+            padding: 20px;
+            background: #191970;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        
+        .moon {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background: #F6F1D5;
+            box-shadow: 
+                inset -30px 0px 0 0px #C7C4A9,
+                0 0 30px rgba(247, 241, 213, 0.7);
+            position: relative;
+            animation: moon-glow 4s ease-in-out infinite alternate;
+        }
+
+        .moon::before, .moon::after {
+            content: '';
+            position: absolute;
+            background: #C7C4A9;
+            border-radius: 50%;
+        }
+
+        .moon::before {
+            width: 25px;
+            height: 25px;
+            top: 35px;
+            right: 25px;
+        }
+
+        .moon::after {
+            width: 15px;
+            height: 15px;
+            bottom: 45px;
+            left: 35px;
+        }
+
+        @keyframes moon-glow {
+            0% { box-shadow: inset -30px 0px 0 0px #C7C4A9, 0 0 20px rgba(247, 241, 213, 0.5); }
+            100% { box-shadow: inset -30px 0px 0 0px #C7C4A9, 0 0 40px rgba(247, 241, 213, 0.9); }
+        }
+    &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;div class="moon"&gt;&lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;</pre>
+                                </div>
+                            </div>
+
+                            <!-- Penguin -->
+                            <div class="artwork" data-category="advanced">
+                                <h3 class="art-title"><i class="fas fa-fish"></i> Cute Penguin</h3>
+                                <div class="art-container">
+                                    <div class="penguin">
+                                        <div class="penguin-body"></div>
+                                        <div class="penguin-belly"></div>
+                                        <div class="penguin-eye"></div>
+                                        <div class="penguin-eye right"></div>
+                                        <div class="penguin-beak"></div>
+                                        <div class="penguin-feet left"></div>
+                                        <div class="penguin-feet right"></div>
+                                    </div>
+                                </div>
+                                <p class="art-description">A detailed penguin created with multiple layered elements and precise positioning.</p>
+                                <div class="art-meta">
+                                    <span>Pure CSS</span>
+                                    <div class="art-difficulty">
+                                        <span class="difficulty-dot filled"></span>
+                                        <span class="difficulty-dot filled"></span>
+                                        <span class="difficulty-dot filled"></span>
+                                        <span>Advanced</span>
+                                    </div>
+                                </div>
+                                <button class="view-code">View Code</button>
+                                <div class="code-display">
+                                    <div class="code-header">
+                                        <h4 class="code-title">Complete HTML + CSS for Penguin</h4>
+                                        <button class="copy-btn">Copy Code</button>
+                                    </div>
+                                    <pre class="code-content">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;style&gt;
+        body {
+            margin: 0;
+            padding: 20px;
+            background: #87CEEB;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        
+        .penguin {
+            width: 120px;
+            height: 150px;
+            position: relative;
+        }
+
+        .penguin-body {
+            width: 100px;
+            height: 130px;
+            background: #2D2B55;
+            border-radius: 50px 50px 40px 40px;
+            position: absolute;
+            bottom: 0;
+            left: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .penguin-belly {
+            width: 70px;
+            height: 90px;
+            background: white;
+            border-radius: 35px 35px 30px 30px;
+            position: absolute;
+            bottom: 10px;
+            left: 15px;
+        }
+
+        .penguin-eye {
+            width: 18px;
+            height: 18px;
+            background: #2D2B55;
+            border-radius: 50%;
+            position: absolute;
+            top: 40px;
+            left: 25px;
+            box-shadow: 0 0 0 4px white;
+        }
+
+        .penguin-eye.right {
+            left: 57px;
+        }
+
+        .penguin-beak {
+            width: 20px;
+            height: 12px;
+            background: #FF9E00;
+            border-radius: 50%;
+            position: absolute;
+            top: 60px;
+            left: 40px;
+            transform: rotate(20deg);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .penguin-feet {
+            position: absolute;
+            width: 25px;
+            height: 10px;
+            background: #FF9E00;
+            border-radius: 50%;
+            bottom: 5px;
+        }
+
+        .penguin-feet.left { left: 25px; }
+        .penguin-feet.right { right: 25px; }
+    &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;div class="penguin"&gt;
+        &lt;div class="penguin-body"&gt;&lt;/div&gt;
+        &lt;div class="penguin-belly"&gt;&lt;/div&gt;
+        &lt;div class="penguin-eye"&gt;&lt;/div&gt;
+        &lt;div class="penguin-eye right"&gt;&lt;/div&gt;
+        &lt;div class="penguin-beak"&gt;&lt;/div&gt;
+        &lt;div class="penguin-feet left"&gt;&lt;/div&gt;
+        &lt;div class="penguin-feet right"&gt;&lt;/div&gt;
+    &lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;</pre>
+                                </div>
+                            </div>
+
+                            <!-- Coffee Cup -->
+                            <div class="artwork" data-category="intermediate animated">
+                                <h3 class="art-title"><i class="fas fa-coffee"></i> Steaming Coffee</h3>
+                                <div class="art-container">
+                                    <div class="coffee-cup">
+                                        <div class="cup">
+                                            <div class="coffee"></div>
+                                        </div>
+                                        <div class="handle"></div>
+                                        <div class="steam"></div>
+                                        <div class="steam"></div>
+                                        <div class="steam"></div>
+                                    </div>
+                                </div>
+                                <p class="art-description">A coffee cup with realistic steam animation using multiple elements and delays.</p>
+                                <div class="art-meta">
+                                    <span>Pure CSS + Animation</span>
+                                    <div class="art-difficulty">
+                                        <span class="difficulty-dot filled"></span>
+                                        <span class="difficulty-dot filled"></span>
+                                        <span class="difficulty-dot"></span>
+                                        <span>Intermediate</span>
+                                    </div>
+                                </div>
+                                <button class="view-code">View Code</button>
+                                <div class="code-display">
+                                    <div class="code-header">
+                                        <h4 class="code-title">Complete HTML + CSS for Coffee Cup</h4>
+                                        <button class="copy-btn">Copy Code</button>
+                                    </div>
+                                    <pre class="code-content">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;style&gt;
+        body {
+            margin: 0;
+            padding: 20px;
+            background: #F5F5DC;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        
+        .coffee-cup {
+            width: 120px;
+            height: 100px;
+            position: relative;
+        }
+
+        .cup {
+            width: 100px;
+            height: 70px;
+            background: #3A2618;
+            border-radius: 0 0 30px 30px;
+            position: absolute;
+            bottom: 0;
+            left: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .cup::before {
+            content: '';
+            width: 120px;
+            height: 30px;
+            background: #6F4E37;
+            border-radius: 50%;
+            position: absolute;
+            top: -15px;
+            left: -10px;
+            border: 5px solid #3A2618;
+        }
+
+        .coffee {
+            position: absolute;
+            width: 80px;
+            height: 50px;
+            background: #4B3621;
+            border-radius: 0 0 25px 25px;
+            bottom: 0;
+            left: 20px;
+        }
+
+        .handle {
+            width: 30px;
+            height: 50px;
+            border: 10px solid #3A2618;
+            border-left: none;
+            border-radius: 0 50px 50px 0;
+            position: absolute;
+            right: 0;
+            top: 20px;
+        }
+
+        .steam {
+            width: 10px;
+            height: 30px;
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 5px;
+            position: absolute;
+            top: -40px;
+            left: 45px;
+            animation: steam 3s ease-in-out infinite;
+            filter: blur(2px);
+        }
+
+        .steam:nth-child(2) {
+            left: 60px;
+            animation-delay: 0.5s;
+        }
+
+        .steam:nth-child(3) {
+            left: 30px;
+            animation-delay: 1s;
+        }
+
+        @keyframes steam {
+            0% { transform: translateY(0) scale(1); opacity: 0.7; }
+            100% { transform: translateY(-30px) scale(1.5); opacity: 0; }
+        }
+    &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;div class="coffee-cup"&gt;
+        &lt;div class="cup"&gt;
+            &lt;div class="coffee"&gt;&lt;/div&gt;
+        &lt;/div&gt;
+        &lt;div class="handle"&gt;&lt;/div&gt;
+        &lt;div class="steam"&gt;&lt;/div&gt;
+        &lt;div class="steam"&gt;&lt;/div&gt;
+        &lt;div class="steam"&gt;&lt;/div&gt;
+    &lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;</pre>
+                                </div>
+                            </div>
+
+                            <!-- CSS Tree -->
+                            <div class="artwork" data-category="simple">
+                                <h3 class="art-title"><i class="fas fa-tree"></i> CSS Tree</h3>
+                                <div class="art-container">
+                                    <div class="css-tree">
+                                        <div class="tree-trunk"></div>
+                                        <div class="tree-top"></div>
+                                    </div>
+                                </div>
+                                <p class="art-description">A simple tree created using CSS triangles for the foliage and a rectangle for the trunk.</p>
+                                <div class="art-meta">
+                                    <span>Pure CSS</span>
+                                    <div class="art-difficulty">
+                                        <span class="difficulty-dot filled"></span>
+                                        <span class="difficulty-dot"></span>
+                                        <span class="difficulty-dot"></span>
+                                        <span>Simple</span>
+                                    </div>
+                                </div>
+                                <button class="view-code">View Code</button>
+                                <div class="code-display">
+                                    <div class="code-header">
+                                        <h4 class="code-title">Complete HTML + CSS for Tree</h4>
+                                        <button class="copy-btn">Copy Code</button>
+                                    </div>
+                                    <pre class="code-content">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;style&gt;
+        body {
+            margin: 0;
+            padding: 20px;
+            background: #87CEEB;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        
+        .css-tree {
+            width: 120px;
+            height: 150px;
+            position: relative;
+        }
+
+        .tree-trunk {
+            width: 20px;
+            height: 50px;
+            background: #8B4513;
+            position: absolute;
+            bottom: 0;
+            left: 50px;
+            border-radius: 5px;
+        }
+
+        .tree-top {
+            width: 0;
+            height: 0;
+            border-left: 50px solid transparent;
+            border-right: 50px solid transparent;
+            border-bottom: 80px solid #27AE60;
+            position: absolute;
+            bottom: 40px;
+            left: 10px;
+        }
+
+        .tree-top::before {
+            content: '';
+            width: 0;
+            height: 0;
+            border-left: 40px solid transparent;
+            border-right: 40px solid transparent;
+            border-bottom: 60px solid #2ECC71;
+            position: absolute;
+            top: 20px;
+            left: -40px;
+        }
+    &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;div class="css-tree"&gt;
+        &lt;div class="tree-trunk"&gt;&lt;/div&gt;
+        &lt;div class="tree-top"&gt;&lt;/div&gt;
+    &lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;</pre>
+                                </div>
+                            </div>
+
+                            <!-- NEW ARTWORKS ADDED HERE -->
+                            
+                            <!-- CSS Loader -->
+                            <div class="artwork" data-category="animated intermediate">
+                                <h3 class="art-title"><i class="fas fa-spinner"></i> CSS Loader</h3>
+                                <div class="art-container">
+                                    <div class="css-loader">
+                                        <div class="loader-dot"></div>
+                                        <div class="loader-dot"></div>
+                                        <div class="loader-dot"></div>
+                                        <div class="loader-dot"></div>
+                                    </div>
+                                </div>
+                                <p class="art-description">A smooth loading animation with four dots that pulse in sequence.</p>
+                                <div class="art-meta">
+                                    <span>Pure CSS + Animation</span>
+                                    <div class="art-difficulty">
+                                        <span class="difficulty-dot filled"></span>
+                                        <span class="difficulty-dot filled"></span>
+                                        <span class="difficulty-dot"></span>
+                                        <span>Intermediate</span>
+                                    </div>
+                                </div>
+                                <button class="view-code">View Code</button>
+                                <div class="code-display">
+                                    <div class="code-header">
+                                        <h4 class="code-title">Complete HTML + CSS for CSS Loader</h4>
+                                        <button class="copy-btn">Copy Code</button>
+                                    </div>
+                                    <pre class="code-content">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;style&gt;
+        body {
+            margin: 0;
+            padding: 20px;
+            background: #2D2B55;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        
+        .css-loader {
+            width: 80px;
+            height: 80px;
+            position: relative;
+        }
+
+        .loader-dot {
+            width: 20px;
+            height: 20px;
+            background: #6C63FF;
+            border-radius: 50%;
+            position: absolute;
+            animation: loader 1.5s ease-in-out infinite;
+            box-shadow: 0 0 10px #6C63FF;
+        }
+
+        .loader-dot:nth-child(1) {
+            top: 0;
+            left: 0;
+            animation-delay: 0s;
+        }
+
+        .loader-dot:nth-child(2) {
+            top: 0;
+            right: 0;
+            animation-delay: 0.2s;
+        }
+
+        .loader-dot:nth-child(3) {
+            bottom: 0;
+            right: 0;
+            animation-delay: 0.4s;
+        }
+
+        .loader-dot:nth-child(4) {
+            bottom: 0;
+            left: 0;
+            animation-delay: 0.6s;
+        }
+
+        @keyframes loader {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.5); }
+        }
+    &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;div class="css-loader"&gt;
+        &lt;div class="loader-dot"&gt;&lt;/div&gt;
+        &lt;div class="loader-dot"&gt;&lt;/div&gt;
+        &lt;div class="loader-dot"&gt;&lt;/div&gt;
+        &lt;div class="loader-dot"&gt;&lt;/div&gt;
+    &lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;</pre>
+                                </div>
+                            </div>
+
+                            <!-- Pulsing Circle -->
+                            <div class="artwork" data-category="animated simple">
+                                <h3 class="art-title"><i class="fas fa-circle"></i> Pulsing Circle</h3>
+                                <div class="art-container">
+                                    <div class="pulse-circle"></div>
+                                </div>
+                                <p class="art-description">A simple pulsing circle with breathing effect animation.</p>
+                                <div class="art-meta">
+                                    <span>Pure CSS + Animation</span>
+                                    <div class="art-difficulty">
+                                        <span class="difficulty-dot filled"></span>
+                                        <span class="difficulty-dot"></span>
+                                        <span class="difficulty-dot"></span>
+                                        <span>Simple</span>
+                                    </div>
+                                </div>
+                                <button class="view-code">View Code</button>
+                                <div class="code-display">
+                                    <div class="code-header">
+                                        <h4 class="code-title">Complete HTML + CSS for Pulsing Circle</h4>
+                                        <button class="copy-btn">Copy Code</button>
+                                    </div>
+                                    <pre class="code-content">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;style&gt;
+        body {
+            margin: 0;
+            padding: 20px;
+            background: #2D2B55;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        
+        .pulse-circle {
+            width: 100px;
+            height: 100px;
+            background: #36D1DC;
+            border-radius: 50%;
+            animation: pulse 2s ease-in-out infinite;
+            box-shadow: 0 0 20px #36D1DC;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.2); opacity: 0.7; }
+        }
+    &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;div class="pulse-circle"&gt;&lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;</pre>
+                                </div>
+                            </div>
+
+                            <!-- Rotating Square -->
+                            <div class="artwork" data-category="animated simple">
+                                <h3 class="art-title"><i class="fas fa-square"></i> Rotating Square</h3>
+                                <div class="art-container">
+                                    <div class="rotating-square"></div>
+                                </div>
+                                <p class="art-description">A gradient square that rotates continuously with smooth animation.</p>
+                                <div class="art-meta">
+                                    <span>Pure CSS + Animation</span>
+                                    <div class="art-difficulty">
+                                        <span class="difficulty-dot filled"></span>
+                                        <span class="difficulty-dot"></span>
+                                        <span class="difficulty-dot"></span>
+                                        <span>Simple</span>
+                                    </div>
+                                </div>
+                                <button class="view-code">View Code</button>
+                                <div class="code-display">
+                                    <div class="code-header">
+                                        <h4 class="code-title">Complete HTML + CSS for Rotating Square</h4>
+                                        <button class="copy-btn">Copy Code</button>
+                                    </div>
+                                    <pre class="code-content">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;style&gt;
+        body {
+            margin: 0;
+            padding: 20px;
+            background: #2D2B55;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        
+        .rotating-square {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(45deg, #FF6B6B, #4ECDC4);
+            animation: rotate 3s linear infinite;
+        }
+
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;div class="rotating-square"&gt;&lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;</pre>
+                                </div>
+                            </div>
+
+                            <!-- Bouncing Ball -->
+                            <div class="artwork" data-category="animated simple">
+                                <h3 class="art-title"><i class="fas fa-basketball-ball"></i> Bouncing Ball</h3>
+                                <div class="art-container">
+                                    <div class="bouncing-ball"></div>
+                                </div>
+                                <p class="art-description">A cheerful ball that bounces up and down with realistic physics.</p>
+                                <div class="art-meta">
+                                    <span>Pure CSS + Animation</span>
+                                    <div class="art-difficulty">
+                                        <span class="difficulty-dot filled"></span>
+                                        <span class="difficulty-dot"></span>
+                                        <span class="difficulty-dot"></span>
+                                        <span>Simple</span>
+                                    </div>
+                                </div>
+                                <button class="view-code">View Code</button>
+                                <div class="code-display">
+                                    <div class="code-header">
+                                        <h4 class="code-title">Complete HTML + CSS for Bouncing Ball</h4>
+                                        <button class="copy-btn">Copy Code</button>
+                                    </div>
+                                    <pre class="code-content">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;style&gt;
+        body {
+            margin: 0;
+            padding: 20px;
+            background: #87CEEB;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        
+        .bouncing-ball {
+            width: 60px;
+            height: 60px;
+            background: #FFD93D;
+            border-radius: 50%;
+            animation: bounce 1.5s ease-in-out infinite;
+            box-shadow: 0 0 15px #FFD93D;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-30px); }
+        }
+    &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;div class="bouncing-ball"&gt;&lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;</pre>
+                                </div>
+                            </div>
+
+                            <!-- Star -->
+                            <div class="artwork" data-category="intermediate">
+                                <h3 class="art-title"><i class="fas fa-star"></i> Golden Star</h3>
+                                <div class="art-container">
+                                    <div class="star"></div>
+                                </div>
+                                <p class="art-description">A perfect golden star created using CSS clip-path with precise polygon coordinates.</p>
+                                <div class="art-meta">
+                                    <span>Pure CSS</span>
+                                    <div class="art-difficulty">
+                                        <span class="difficulty-dot filled"></span>
+                                        <span class="difficulty-dot filled"></span>
+                                        <span class="difficulty-dot"></span>
+                                        <span>Intermediate</span>
+                                    </div>
+                                </div>
+                                <button class="view-code">View Code</button>
+                                <div class="code-display">
+                                    <div class="code-header">
+                                        <h4 class="code-title">Complete HTML + CSS for Golden Star</h4>
+                                        <button class="copy-btn">Copy Code</button>
+                                    </div>
+                                    <pre class="code-content">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;style&gt;
+        body {
+            margin: 0;
+            padding: 20px;
+            background: #191970;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        
+        .star {
+            width: 100px;
+            height: 100px;
+            background: #FFD700;
+            clip-path: polygon(
+                50% 0%, 
+                61% 35%, 
+                98% 35%, 
+                68% 57%, 
+                79% 91%, 
+                50% 70%, 
+                21% 91%, 
+                32% 57%, 
+                2% 35%, 
+                39% 35%
+            );
+            position: relative;
+        }
+    &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;div class="star"&gt;&lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;</pre>
+                                </div>
+                            </div>
+
+                            <!-- Fluffy Cloud -->
+                            <div class="artwork" data-category="simple">
+                                <h3 class="art-title"><i class="fas fa-cloud"></i> Fluffy Cloud</h3>
+                                <div class="art-container">
+                                    <div class="cloud"></div>
+                                </div>
+                                <p class="art-description">A soft, fluffy cloud created with multiple overlapping circles.</p>
+                                <div class="art-meta">
+                                    <span>Pure CSS</span>
+                                    <div class="art-difficulty">
+                                        <span class="difficulty-dot filled"></span>
+                                        <span class="difficulty-dot"></span>
+                                        <span class="difficulty-dot"></span>
+                                        <span>Simple</span>
+                                    </div>
+                                </div>
+                                <button class="view-code">View Code</button>
+                                <div class="code-display">
+                                    <div class="code-header">
+                                        <h4 class="code-title">Complete HTML + CSS for Fluffy Cloud</h4>
+                                        <button class="copy-btn">Copy Code</button>
+                                    </div>
+                                    <pre class="code-content">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;style&gt;
+        body {
+            margin: 0;
+            padding: 20px;
+            background: #87CEEB;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        
+        .cloud {
+            width: 150px;
+            height: 80px;
+            background: white;
+            border-radius: 50px;
+            position: relative;
+            box-shadow: 0 10px 20px rgba(255,255,255,0.3);
+        }
+
+        .cloud::before, .cloud::after {
+            content: '';
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+        }
+
+        .cloud::before {
+            width: 60px;
+            height: 60px;
+            top: -25px;
+            left: 20px;
+        }
+
+        .cloud::after {
+            width: 40px;
+            height: 40px;
+            top: -15px;
+            right: 30px;
+        }
+    &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;div class="cloud"&gt;&lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;</pre>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <footer>
+                        <div class="container">
+                            <p>CSS Art Gallery &copy; 2023 | All artworks created with pure CSS - no images, no JavaScript</p>
+                            <p>Inspired by the amazing CSS art community</p>
+                        </div>
+                    </footer>
+                    <!-- YOUR ORIGINAL GALLERY HTML ENDS HERE -->
+                `;
+                
+                // Now load the gallery CSS and JS
+                loadGalleryFunctionality();
+            }
+            
+            function loadGalleryFunctionality() {
+                // Your original JavaScript functionality
+                const filterButtons = document.querySelectorAll('.filter-btn');
+                const artworks = document.querySelectorAll('.artwork');
+                const viewCodeButtons = document.querySelectorAll('.view-code');
+                const copyButtons = document.querySelectorAll('.copy-btn');
+                
+                // Filter functionality
+                filterButtons.forEach(button => {
+                    button.addEventListener('click', function() {
+                        filterButtons.forEach(btn => btn.classList.remove('active'));
+                        this.classList.add('active');
+                        
+                        const filterValue = this.getAttribute('data-filter');
+                        
+                        artworks.forEach(artwork => {
+                            if (filterValue === 'all' || artwork.getAttribute('data-category').includes(filterValue)) {
+                                artwork.style.display = 'block';
+                                setTimeout(() => {
+                                    artwork.style.opacity = '1';
+                                    artwork.style.transform = 'translateY(0)';
+                                }, 10);
+                            } else {
+                                artwork.style.opacity = '0';
+                                artwork.style.transform = 'translateY(20px)';
+                                setTimeout(() => {
+                                    artwork.style.display = 'none';
+                                }, 300);
+                            }
+                        });
+                    });
+                });
+                
+                // View code functionality
+                viewCodeButtons.forEach(button => {
+                    button.addEventListener('click', function() {
+                        const codeDisplay = this.nextElementSibling;
+                        const isVisible = codeDisplay.style.display === 'block';
+                        
+                        document.querySelectorAll('.code-display').forEach(display => {
+                            display.style.display = 'none';
+                        });
+                        
+                        document.querySelectorAll('.view-code').forEach(btn => {
+                            btn.textContent = 'View Code';
+                        });
+                        
+                        if (!isVisible) {
+                            codeDisplay.style.display = 'block';
+                            this.textContent = 'Hide Code';
+                        }
+                    });
+                });
+                
+                // Copy code functionality
+                copyButtons.forEach(button => {
+                    button.addEventListener('click', function() {
+                        const codeContent = this.parentElement.nextElementSibling.textContent;
+                        navigator.clipboard.writeText(codeContent).then(() => {
+                            const originalText = this.textContent;
+                            this.textContent = 'Copied!';
+                            setTimeout(() => {
+                                this.textContent = originalText;
+                            }, 2000);
+                            
+                        });
+                    });
+                });
+            }
+        });
+    </script>
+</body>
+</html>
